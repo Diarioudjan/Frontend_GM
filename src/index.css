@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,7 +11,7 @@
 
   body {
     font-family: 'Inter', sans-serif;
-    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100 transition-colors duration-300;
+    @apply bg-neutral-50 text-neutral-900 dark:bg-black dark:text-neutral-100 transition-colors duration-300;
   }
 
   h1,
@@ -20,7 +20,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 }
 
@@ -28,15 +28,15 @@
 
   /* Boutons */
   .btn-primary {
-    @apply bg-primary-500 hover:bg-primary-600 text-white px-5 py-2.5 rounded-xl transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary-200;
+    @apply bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary-200 text-sm;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-primary-400 to-primary-500 text-white px-5 py-2.5 rounded-xl hover:from-primary-500 hover:to-primary-600 transition-all duration-300 font-semibold shadow-medium hover:shadow-large transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary-200;
+    @apply bg-gradient-to-r from-primary-400 to-primary-500 text-white px-4 py-2 rounded-lg hover:from-primary-500 hover:to-primary-600 transition-all duration-300 font-semibold shadow-medium hover:shadow-large transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary-200 text-sm;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-600 text-primary-600 px-5 py-2.5 rounded-xl hover:bg-primary-600 hover:text-white transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-primary-200;
+    @apply border-2 border-primary-600 text-primary-600 px-4 py-2 rounded-lg hover:bg-primary-600 hover:text-white transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-primary-200 text-sm;
   }
 
   .btn-ghost {
@@ -45,7 +45,7 @@
 
   /* Champs de saisie */
   .input-field {
-    @apply border border-neutral-300 rounded-xl px-3.5 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white shadow-soft dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:placeholder-neutral-400;
+    @apply border border-neutral-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white shadow-soft dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:placeholder-neutral-400 text-sm;
   }
 
   .input-field:focus {
@@ -147,6 +147,19 @@
     @apply bg-gradient-to-br from-primary-50 via-white to-primary-50;
   }
 
+  .gradient-premium {
+    @apply bg-gradient-to-br from-primary-500 via-primary-600 to-green-600;
+  }
+
+  /* Glassmorphism */
+  .glass-effect {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-soft dark:bg-black/70 dark:border-white/10;
+  }
+
+  .glass-card {
+    @apply bg-white/40 backdrop-blur-lg border border-white/30 shadow-medium dark:bg-white/5 dark:border-white/10;
+  }
+
   /* Effets de survol */
   .hover-lift {
     @apply transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-large;
@@ -176,11 +189,11 @@
 
   /* Typography */
   .heading-1 {
-    @apply text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 leading-tight dark:text-white;
+    @apply text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 leading-tight dark:text-white;
   }
 
   .heading-2 {
-    @apply text-xl sm:text-2xl lg:text-3xl font-bold text-neutral-900 leading-tight dark:text-white;
+    @apply text-lg sm:text-xl lg:text-2xl font-bold text-neutral-900 leading-tight dark:text-white;
   }
 
   .heading-3 {
