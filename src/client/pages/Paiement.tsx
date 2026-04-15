@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import { orderService, formatCurrency } from '../services/api';
-import { CartItem, User } from '../types';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import { orderService, formatCurrency } from '../../services/api';
+import { CartItem, User } from '../../types';
 
 const Paiement: React.FC = () => {
     const { cartItems, cartTotal, clearCart } = useCart();
@@ -273,3 +273,4 @@ const Paiement: React.FC = () => {
 };
 
 export default Paiement;
+

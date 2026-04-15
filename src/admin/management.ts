@@ -108,7 +108,7 @@ export const getStatusConfig = (type: StatusType, status: string): StatusConfig 
     order: {
       pending: { label: 'En attente', color: 'bg-yellow-100 text-yellow-800', icon: '⏳' },
       processing: { label: 'En cours', color: 'bg-blue-100 text-blue-800', icon: '🔄' },
-      shipped: { label: 'Expédiée', color: 'bg-purple-100 text-purple-800', icon: '🚚' },
+      shipped: { label: 'Expédiée', color: 'bg-orange-100 text-orange-800', icon: '🚚' },
       delivered: { label: 'Livrée', color: 'bg-green-100 text-green-800', icon: '✅' },
       cancelled: { label: 'Annulée', color: 'bg-red-100 text-red-800', icon: '❌' }
     },

@@ -1,196 +1,201 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { User } from '../types';
+import {
+    FiHeart,
+    FiMenu,
+    FiMoon,
+    FiShoppingCart,
+    FiSun,
+    FiUser,
+    FiX
+} from 'react-icons/fi';
 
 const Navbar: React.FC = () => {
     const { user, isAuthenticated, logout } = useAuth() as { user: User | null; isAuthenticated: boolean; logout: () => void };
     const { itemCount } = useCart() as { itemCount: number };
     const { theme, toggleTheme } = useTheme() as { theme: 'light' | 'dark'; toggleTheme: () => void };
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const [isScrolled, setIsScrolled] = useState<boolean>(false);
-    const [dropdownOpen, setDropdownOpen] = useState<'content' | 'account' | null>(null);
     const location = useLocation();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const navLinks = useMemo(() => ([
+        { name: 'ACCUEIL', path: '/' },
+        { name: 'CATALOGUE', path: '/produits' },
+        { name: 'A PROPOS', path: '/about' },
+        { name: 'CONTACT', path: '/contact' }
+    ]), []);
+    const staticPaths = useMemo(() => ['/', '/about', '/contact'], []);
+    const isPublicCatalogue = location.pathname === '/produits';
+    const isPublicProductDetail = location.pathname.startsWith('/produit/');
 
     const isActive = (path: string) => location.pathname === path;
+    const isStaticPage = staticPaths.includes(location.pathname);
+    const hideCommerceActions = isPublicCatalogue || isPublicProductDetail;
+    const showStaticGuestButtons = !isAuthenticated && isStaticPage;
+    const showStaticUserButton = isAuthenticated && isStaticPage;
 
-    const navLinks = [
-        { name: 'Accueil', path: '/' },
-        { name: 'Produits', path: '/produits' },
-        { name: 'À Propos', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-    ];
+    const closeMenu = () => setIsMenuOpen(false);
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-700 ${isScrolled
-            ? 'py-3 bg-white/80 dark:bg-black/70 backdrop-blur-2xl shadow-premium border-b border-white/20 dark:border-white/5'
-            : 'py-6 bg-transparent'
-            }`}>
-            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                {/* Logo Section */}
-                <Link to="/" className="flex items-center space-x-3 group perspective-1000">
-                    <div className="relative h-12 lg:h-14 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                        <img src="/assets/logo.png" alt="GuinéeMakiti" className="h-full w-auto object-contain drop-shadow-glow" />
-                    </div>
-                </Link>
-
-                {/* Desktop Menu - Modern Minimalist */}
-                <div className="hidden lg:flex items-center space-x-10">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.path}
-                            to={link.path}
-                            className={`relative text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 hover:text-primary-500 ${isActive(link.path) ? 'text-primary-500' : 'text-neutral-900 dark:text-neutral-300'}`}
-                        >
-                            {link.name}
-                            <span className={`absolute -bottom-2 left-0 h-[2px] bg-primary-500 transition-all duration-500 ${isActive(link.path) ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full'}`}></span>
-                        </Link>
-                    ))}
-                </div>
-
-                {/* Right Side Actions */}
-                <div className="flex items-center space-x-4 lg:space-x-8">
-                    {/* Theme Switcher Premium */}
-                    <button
-                        onClick={toggleTheme}
-                        className="group relative p-2 rounded-2xl glass-effect border border-neutral-200/50 dark:border-white/5 transition-all duration-500 hover:bg-white dark:hover:bg-white/10"
-                        aria-label="Toggle Theme"
-                    >
-                        <div className="relative h-6 w-6 overflow-hidden">
-                            <div className={`transition-all duration-700 transform ${theme === 'dark' ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}>
-                                <span className="text-xl">☀️</span>
-                            </div>
-                            <div className={`absolute inset-0 transition-all duration-700 transform ${theme === 'light' ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}>
-                                <span className="text-xl">🌙</span>
-                            </div>
-                        </div>
-                    </button>
-
-                    {/* Cart with Premium Badge */}
-                    <Link to="/panier" className="group relative p-2.5 rounded-2xl glass-effect border border-neutral-200/50 dark:border-white/5 transition-all duration-500 hover:rotate-6 hover:scale-110">
-                        <span className="text-2xl">🛒</span>
-                        {itemCount > 0 && (
-                            <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 bg-primary-500 text-white text-[9px] font-black rounded-full flex items-center justify-center px-1.5 shadow-glow animate-pulse-gentle">
-                                {itemCount}
-                            </span>
-                        )}
+        <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+            <div className="mx-auto grid max-w-[1880px] grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 sm:px-5 sm:py-4 lg:gap-6 lg:px-8">
+                <div className="flex items-center gap-4 lg:gap-7">
+                    <Link to="/" className="shrink-0" onClick={closeMenu}>
+                        <img
+                            src="/assets/logo.png"
+                            alt="GuineeMakiti"
+                            className="h-10 w-auto object-contain sm:h-11"
+                        />
                     </Link>
 
-                    {/* User Profile / Auth Toggle */}
-                    <div className="hidden lg:block">
-                        {isAuthenticated ? (
-                            <div className="relative group/dropdown">
-                                <button className="flex items-center space-x-3 glass-card px-4 py-2 rounded-2xl border border-primary-500/10 hover:border-primary-500/30 transition-all duration-500">
-                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-black text-xs shadow-lg">
-                                        {user?.prenom?.[0] || 'U'}
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-neutral-900 dark:text-white">
-                                        {user?.prenom}
-                                    </span>
-                                </button>
-
-                                {/* Premium Dropdown */}
-                                <div className="absolute top-full right-0 mt-3 w-64 opacity-0 invisible translate-y-4 group-hover/dropdown:opacity-100 group-hover/dropdown:visible group-hover/dropdown:translate-y-0 transition-all duration-500 z-50">
-                                    <div className="glass-card p-2 rounded-3xl border border-white/20 shadow-2xl overflow-hidden backdrop-blur-3xl bg-white/90 dark:bg-black/90">
-                                        <div className="p-4 border-b border-neutral-100 dark:border-white/5 mb-2">
-                                            <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Session active</p>
-                                            <p className="text-xs font-black text-neutral-900 dark:text-white truncate">{user?.email}</p>
-                                        </div>
-                                        <Link to="/dashboard" className="flex items-center space-x-3 p-3 rounded-2xl hover:bg-primary-500/5 text-neutral-600 dark:text-neutral-400 hover:text-primary-500 transition-colors">
-                                            <span className="text-lg">🏚️</span>
-                                            <span className="text-[10px] font-black uppercase tracking-widest">Mon Dashboard</span>
-                                        </Link>
-                                        {(user?.role === 'vendeur' || user?.role === 'admin') && (
-                                            <Link to="/vendor/dashboard" className="flex items-center space-x-3 p-3 rounded-2xl hover:bg-amber-500/5 text-amber-600 dark:text-amber-400 hover:text-amber-500 transition-colors">
-                                                <span className="text-lg">🏪</span>
-                                                <span className="text-[10px] font-black uppercase tracking-widest">Espace Vendeur</span>
-                                            </Link>
-                                        )}
-                                        <div className="my-2 border-t border-neutral-100 dark:border-white/5"></div>
-                                        <button
-                                            onClick={logout}
-                                            className="w-full flex items-center space-x-3 p-3 rounded-2xl hover:bg-red-500/5 text-red-500 hover:text-red-600 transition-colors"
-                                        >
-                                            <span className="text-lg">🚪</span>
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-left">Déconnexion</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <Link
-                                to="/connexion"
-                                className="bg-primary-500 text-white px-8 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-soft-orange hover:scale-105 active:scale-95 transition-all block"
-                            >
-                                Connexion
-                            </Link>
-                        )}
-                    </div>
-
-                    {/* Mobile Burger - Refined */}
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden p-2.5 rounded-2xl glass-effect border border-neutral-200 dark:border-white/5"
-                    >
-                        <div className="w-6 h-5 relative flex flex-col justify-between items-end">
-                            <span className={`h-[2px] bg-neutral-900 dark:bg-white transition-all duration-500 ${isMenuOpen ? 'w-full rotate-45 translate-y-2' : 'w-full'}`}></span>
-                            <span className={`h-[2px] bg-neutral-900 dark:bg-white transition-all duration-500 ${isMenuOpen ? 'opacity-0' : 'w-2/3'}`}></span>
-                            <span className={`h-[2px] bg-neutral-900 dark:bg-white transition-all duration-500 ${isMenuOpen ? 'w-full -rotate-45 -translate-y-2' : 'w-full'}`}></span>
-                        </div>
-                    </button>
                 </div>
-            </div>
 
-            {/* Mobile Navigation Reveal */}
-            <div className={`lg:hidden fixed inset-0 z-[-1] transition-all duration-700 pointer-events-none ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'}`}>
-                <div className="absolute inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-3xl p-8 pt-32 pointer-events-auto">
-                    <div className="flex flex-col space-y-8">
-                        {navLinks.map((link, i) => (
+                <nav className="hidden items-center justify-center gap-10 xl:flex">
+                        {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="text-4xl font-black text-neutral-900 dark:text-white uppercase tracking-tighter italic border-b border-neutral-100 dark:border-white/5 pb-4 flex justify-between items-center group"
-                                style={{ transitionDelay: `${i * 100}ms` }}
+                                className={`text-[13px] font-extrabold tracking-[0.04em] transition-colors ${
+                                    isActive(link.path) ? 'text-primary-600 dark:text-orange-400' : 'text-neutral-600 hover:text-primary-600 dark:text-neutral-300 dark:hover:text-orange-400'
+                                }`}
                             >
-                                <span>{link.name}</span>
-                                <span className="text-2xl text-primary-500 group-hover:translate-x-2 transition-transform">→</span>
+                                {link.name}
                             </Link>
                         ))}
-                    </div>
+                </nav>
 
-                    <div className="mt-20">
-                        {!isAuthenticated ? (
-                            <div className="grid grid-cols-2 gap-4">
-                                <Link to="/connexion" onClick={() => setIsMenuOpen(false)} className="bg-neutral-100 dark:bg-white/5 text-center py-5 rounded-3xl text-[10px] font-black uppercase tracking-widest">Se Connecter</Link>
-                                <Link to="/inscription" onClick={() => setIsMenuOpen(false)} className="bg-primary-500 text-white text-center py-5 rounded-3xl text-[10px] font-black uppercase tracking-widest shadow-soft-orange">S'inscrire</Link>
+                <div className="ml-auto flex items-center justify-end gap-1 sm:gap-2 lg:gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        className="hidden h-10 w-10 items-center justify-center rounded-full text-[#d58a2f] transition-colors hover:bg-neutral-100 dark:text-orange-400 dark:hover:bg-neutral-800 sm:flex"
+                        aria-label="Changer le theme"
+                    >
+                        {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={17} />}
+                    </button>
+
+                    {showStaticGuestButtons ? (
+                        <div className="hidden items-center gap-2 sm:flex">
+                            <Link
+                                to="/connexion"
+                                className="rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-primary-600 hover:text-primary-600 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-orange-400 dark:hover:text-orange-400"
+                            >
+                                Connexion
+                            </Link>
+                            <Link
+                                to="/inscription"
+                                className="rounded-full bg-gradient-to-r from-primary-600 to-orange-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:from-primary-700 hover:to-orange-600"
+                            >
+                                Inscription
+                            </Link>
+                        </div>
+                    ) : showStaticUserButton ? (
+                        <div className="hidden items-center gap-2 sm:flex">
+                            <Link
+                                to="/dashboard"
+                                className="rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-primary-600 hover:text-primary-600 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-orange-400 dark:hover:text-orange-400"
+                            >
+                                Mon compte
+                            </Link>
+                        </div>
+                    ) : hideCommerceActions ? null : (
+                        <>
+                            <div className="relative hidden sm:block">
+                                <Link
+                                    to={isAuthenticated ? '/dashboard' : '/connexion'}
+                                    className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-primary-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-orange-400"
+                                >
+                                    <FiUser size={20} />
+                                </Link>
+
+                                {isAuthenticated && (
+                                    <div className="invisible absolute right-0 top-full z-50 mt-3 w-56 translate-y-2 rounded-2xl border border-neutral-200 bg-white opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100" />
+                                )}
                             </div>
-                        ) : (
-                            <div className="flex items-center space-x-6 glass-card p-6 rounded-[2.5rem]">
-                                <div className="w-16 h-16 rounded-3xl bg-primary-500 flex items-center justify-center text-3xl shadow-xl">
-                                    {user?.prenom?.[0]}
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-black text-neutral-900 dark:text-white uppercase tracking-tighter mb-1">{user?.prenom} {user?.nom}</h3>
-                                    <button onClick={() => { logout(); setIsMenuOpen(false); }} className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em]">Me déconnecter</button>
-                                </div>
-                            </div>
-                        )}
+
+                            <Link
+                                to="/favoris"
+                                className="relative flex h-10 w-10 items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-primary-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-orange-400"
+                            >
+                                <FiHeart size={20} />
+                                <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-black text-white">
+                                    0
+                                </span>
+                            </Link>
+
+                            <Link
+                                to="/panier"
+                                className="relative flex h-10 w-10 items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-primary-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-orange-400"
+                            >
+                                <FiShoppingCart size={20} />
+                                <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-black text-white">
+                                    {itemCount}
+                                </span>
+                            </Link>
+                        </>
+                    )}
+
+                    <button
+                        onClick={() => setIsMenuOpen((value) => !value)}
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800 xl:hidden"
+                        aria-label="Ouvrir le menu"
+                    >
+                        {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+                    </button>
+                </div>
+            </div>
+
+            <div className={`border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950 xl:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+                <div className="mx-auto flex max-w-[1880px] flex-col gap-5 px-4 py-5 sm:px-6">
+                    <nav className="flex flex-col gap-1">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                onClick={closeMenu}
+                                className={`rounded-2xl px-4 py-4 text-sm font-extrabold tracking-[0.05em] transition-colors ${
+                                    isActive(link.path)
+                                        ? 'bg-orange-50 text-primary-600 dark:bg-orange-500/10 dark:text-orange-400'
+                                        : 'text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:hover:text-orange-400'
+                                }`}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </nav>
+
+                    <div className="flex items-center justify-between border-t border-neutral-200 pt-4 dark:border-neutral-800">
+                        <button
+                            onClick={toggleTheme}
+                            className="flex items-center gap-2 text-sm font-bold text-neutral-600 dark:text-neutral-200"
+                        >
+                            {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
+                            <span>{theme === 'dark' ? 'Mode clair' : 'Mode sombre'}</span>
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                            <Link
+                                to={isAuthenticated ? '/dashboard' : '/connexion'}
+                                onClick={closeMenu}
+                                className="rounded-full border border-neutral-200 px-4 py-2 text-sm font-bold text-neutral-700 transition-colors hover:border-primary-600 hover:text-primary-600 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-orange-400 dark:hover:text-orange-400"
+                            >
+                                {isAuthenticated ? `${user?.prenom || 'Mon'} compte` : 'Connexion'}
+                            </Link>
+                            {isAuthenticated && (
+                                <button
+                                    onClick={logout}
+                                    className="text-sm font-bold text-red-500"
+                                >
+                                    Deconnexion
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-        </nav>
+        </header>
     );
 };
 

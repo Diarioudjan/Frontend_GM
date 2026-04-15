@@ -107,24 +107,6 @@ const Home: React.FC = () => {
         }
     ];
 
-    const steps = [
-        {
-            title: "Choisissez vos produits",
-            description: "Explorez notre catalogue et sélectionnez les meilleurs produits du terroir en quelques clics.",
-            icon: "🛒"
-        },
-        {
-            title: "Confirmez sur WhatsApp",
-            description: "Le lien vous connecte à notre service client pour valider les quantités et le lieu de livraison.",
-            icon: "💬"
-        },
-        {
-            title: "Recevez et Savourez",
-            description: "Dans les délais courts, vous recevez vos produits frais directement chez vous ou au bureau.",
-            icon: "🚛"
-        }
-    ];
-
     const blogPosts = [
         {
             title: "La récolte du miel blanc de Labé : une saison exceptionnelle",
@@ -202,8 +184,8 @@ const Home: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-neutral-900 overflow-x-hidden">
-            <section className="pt-20">
+        <div className="min-h-screen bg-gradient-to-b from-white via-neutral-50/40 to-white dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-900 overflow-x-hidden">
+            <section>
                 {isAuthenticated ? (
                     <div className="relative py-24 px-8 lg:px-12 overflow-hidden bg-white dark:bg-neutral-900">
                         {/* Background Decor */}
@@ -237,7 +219,7 @@ const Home: React.FC = () => {
                                                 Explorer bio
                                             </button>
                                             <button
-                                                onClick={() => navigate('/dashboard?tab=orders')}
+                                                onClick={() => navigate('/commandes')}
                                                 className="px-8 py-4 glass-effect text-neutral-900 dark:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/90 dark:hover:bg-white/10 transition-all active:scale-95 font-bold"
                                             >
                                                 Mes Commandes
@@ -250,7 +232,7 @@ const Home: React.FC = () => {
                                         {[
                                             { label: 'Panier', icon: '🛒', link: '/panier', color: 'bg-emerald-500/5 hover:bg-emerald-500/10' },
                                             { label: 'Favoris', icon: '❤️', link: '/dashboard?tab=wishlist', color: 'bg-rose-500/5 hover:bg-rose-500/10' },
-                                            { label: 'Profil', icon: '👤', link: '/dashboard?tab=profile', color: 'bg-sky-500/5 hover:bg-sky-500/10' },
+                                            { label: 'Profil', icon: '👤', link: '/profile', color: 'bg-sky-500/5 hover:bg-sky-500/10' },
                                             { label: 'Support', icon: '📞', link: '/support', color: 'bg-amber-500/5 hover:bg-amber-500/10' }
                                         ].map((box, i) => (
                                             <button
@@ -277,7 +259,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* Regions Section */}
-            <section className="section-padding bg-white dark:bg-neutral-900">
+            <section className="section-padding bg-transparent">
                 <div className="container-custom text-center mb-16">
                     <h2 className="heading-3 mb-4">Nos Régions, Nos Richesses</h2>
                     <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
@@ -298,7 +280,7 @@ const Home: React.FC = () => {
                                 <Link
                                     key={index}
                                     to={`/region/${index + 1}`}
-                                    className="group relative h-[300px] rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300"
+                                    className="group relative h-[300px] rounded-2xl overflow-hidden cursor-pointer border border-neutral-200/70 dark:border-neutral-800/70 shadow-sm hover:shadow-xl transition-all duration-300"
                                 >
                                     <img
                                         src={region.backgroundImage}
@@ -307,7 +289,7 @@ const Home: React.FC = () => {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                                     <div className="absolute top-4 left-4 z-10">
-                                        <div className={`w-12 h-12 ${config.bg} rounded-lg flex items-center justify-center shadow-lg`}>
+                                        <div className={`w-12 h-12 ${config.bg} rounded-xl flex items-center justify-center shadow-lg ring-2 ring-white/30`}>
                                             <span className="text-xl">{config.icon}</span>
                                         </div>
                                     </div>
@@ -323,7 +305,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* Engagements Section */}
-            <section className="section-padding bg-white dark:bg-neutral-900">
+            <section className="section-padding bg-transparent">
                 <div className="container-custom text-center mb-16">
                     <h2 className="heading-3 mb-4">Nos Engagements</h2>
                     <p className="text-body max-w-2xl mx-auto text-lg">Plus qu'une plateforme, une vision durable pour l'excellence de notre terroir.</p>
@@ -332,8 +314,8 @@ const Home: React.FC = () => {
                 <div className="container-custom">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {engagements.map((item, index) => (
-                            <div key={index} className="text-center p-6 rounded-2xl bg-white dark:bg-neutral-800 shadow-soft hover:shadow-medium transition-all duration-300">
-                                <div className="text-5xl mb-4 inline-block">{item.icon}</div>
+                            <div key={index} className="text-center p-6 rounded-2xl bg-white/95 dark:bg-neutral-800 border border-neutral-200/70 dark:border-neutral-700 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                <div className="text-5xl mb-4 inline-block transform transition-transform duration-300 group-hover:scale-110">{item.icon}</div>
                                 <h3 className="heading-3 mb-3 text-neutral-900 dark:text-white">{item.title}</h3>
                                 <p className="text-body leading-relaxed">{item.description}</p>
                             </div>
@@ -343,7 +325,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* Featured Products */}
-            <section className="section-padding bg-white dark:bg-neutral-900">
+            <section className="section-padding bg-transparent">
                 <div className="container-custom flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
                     <div>
                         <h2 className="heading-3 mb-2">Produits Phares</h2>
@@ -363,7 +345,7 @@ const Home: React.FC = () => {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {products.map((product) => (
-                                <div key={product._id} className="group bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300">
+                                <div key={product._id} className="group bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden border border-neutral-200/70 dark:border-neutral-700 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                                     <div className="relative h-48 overflow-hidden bg-gray-100 flex items-center justify-center">
                                         {product.images?.[0] ? (
                                             <img src={product.images[0]} alt={product.nom} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -379,8 +361,11 @@ const Home: React.FC = () => {
                                         <p className="text-body text-sm mb-4 line-clamp-2">{product.description}</p>
                                         <div className="flex justify-between items-center">
                                             <span className="text-xl font-bold text-neutral-900 dark:text-white">{product.prix?.toLocaleString()} GNF</span>
-                                            <Link to={`/produit/${product._id}`} className="p-3 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-all shadow-md hover:shadow-lg">
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.8 9M7 13l-1.8 9m0 0h9.6M16 13v9" /></svg>
+                                            <Link
+                                                to={`/produit/${product._id}`}
+                                                className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg"
+                                            >
+                                                Détails
                                             </Link>
                                         </div>
                                     </div>
@@ -392,7 +377,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* Testimonials */}
-            <section className="section-padding bg-gradient-to-br from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-800">
+            <section className="section-padding bg-gradient-to-br from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-800 border-y border-neutral-100 dark:border-neutral-800/70">
                 <div className="container-custom text-center mb-8">
                     <h2 className="heading-3 mb-3">Parole aux Producteurs</h2>
                     <p className="text-body max-w-2xl mx-auto">Rencontrez les hommes et les femmes qui cultivent avec passion les richesses de notre pays.</p>
@@ -435,39 +420,8 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* How it works */}
-            <section className="section-padding bg-white dark:bg-neutral-900">
-                <div className="container-custom text-center mb-16">
-                    <h2 className="heading-3 mb-4">Comment ça marche ?</h2>
-                    <p className="text-body text-lg">Un processus simple, rapide et sécurisé pour vos commandes.</p>
-                </div>
-
-                <div className="container-custom">
-                    <div className="flex flex-col md:flex-row justify-between items-start gap-12 relative">
-                        <div className="absolute top-12 left-0 w-full h-0.5 bg-primary-200 dark:bg-primary-800 hidden md:block -z-0"></div>
-                        {steps.map((step, i) => (
-                            <div key={i} className="flex-1 relative z-10 flex flex-col items-center text-center">
-                                <div className="w-16 h-16 rounded-full bg-primary-500 flex items-center justify-center text-2xl mb-6 shadow-lg relative z-10">
-                                    {step.icon}
-                                </div>
-                                <div className="absolute top-12 left-1/2 transform -translate-x-1/2 -z-0">
-                                    <span className="text-2xl font-bold text-primary-500 bg-white dark:bg-neutral-900 px-3">{i + 1}</span>
-                                </div>
-                                <h3 className="font-bold text-lg mb-3 text-neutral-900 dark:text-white">{step.title}</h3>
-                                <p className="text-body text-sm">{step.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="text-center mt-16">
-                        <Link to="/produits" className="px-10 py-5 bg-primary-500 hover:bg-primary-600 text-white rounded-2xl font-bold text-lg inline-block transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                            Commencer mon panier
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
             {/* News Section */}
-            <section className="section-padding bg-white dark:bg-neutral-900">
+            <section className="section-padding bg-transparent">
                 <div className="container-custom flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
                     <div>
                         <h2 className="heading-3 mb-2">Actualités & Blog</h2>
@@ -505,3 +459,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+

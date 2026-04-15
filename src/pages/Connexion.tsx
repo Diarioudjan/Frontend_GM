@@ -43,8 +43,9 @@ const Connexion: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await login({ email: formData.email, password: formData.password });
-      if (response.data.user.role === 'admin') navigate('/admin/dashboard');
-      else if (response.data.user.role === 'vendeur') navigate('/vendor/dashboard');
+      const role = response.data.user.role?.toString().trim().toLowerCase();
+      if (role === 'admin') navigate('/admin/dashboard');
+      else if (role === 'vendeur') navigate('/vendor/dashboard');
       else navigate('/dashboard');
     } catch (error: any) {
       if (error.response?.data?.errors) {
@@ -67,17 +68,19 @@ const Connexion: React.FC = () => {
         <img
           src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1920"
           alt="Guinée Terroir"
-          className="absolute inset-0 w-full h-full object-cover opacity-80"
+          className="absolute inset-0 w-full h-full object-cover opacity-90 blur-[6px] scale-105"
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-between w-full p-8 lg:p-12">
-          {/* Logo container to make it pop and extremely visible */}
-          <div className="mt-4 inline-block bg-white/95 backdrop-blur-2xl p-5 rounded-[2rem] shadow-2xl border border-white/20 self-start">
-            <img src="/assets/logo.png" alt="GuinéeMakiti" className="h-20 w-auto" />
-          </div>
+          {/* Logo clickable */}
+          <Link to="/" className="mt-4 inline-block hover:scale-105 transition-transform duration-300 self-start">
+            <div className="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl">
+              <img src="/assets/logo.png" alt="GuinéeMakiti" className="h-14 w-auto object-contain drop-shadow-xl" />
+            </div>
+          </Link>
 
           {/* Text */}
           <div className="space-y-4">
@@ -114,9 +117,9 @@ const Connexion: React.FC = () => {
             <img src="/assets/logo.png" alt="GuinéeMakiti" className="h-20 w-auto mx-auto drop-shadow-lg" />
           </div>
 
-          <div className="space-y-1">
-            <h2 className="text-2xl font-bold text-neutral-900 tracking-tight">Bienvenue</h2>
-            <p className="text-sm text-neutral-500">Connectez-vous pour accéder au meilleur de la Guinée</p>
+          <div className="space-y-2 mb-2">
+            <h2 className="text-3xl font-bold text-neutral-900 tracking-tight">Bienvenue</h2>
+            <p className="text-base text-neutral-500">Connectez-vous pour accéder au meilleur de la Guinée.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -140,25 +143,25 @@ const Connexion: React.FC = () => {
               </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1.5">Email ou Téléphone</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1.5">Email ou Téléphone</label>
                 <input
                   name="email"
                   type="email"
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 rounded-lg border bg-neutral-50 border-gray-200 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all outline-none text-sm font-medium text-neutral-900 placeholder:text-neutral-400 ${errors.email ? 'border-red-500 bg-red-50' : 'hover:border-gray-300'}`}
+                  className={`w-full px-4 py-3 rounded-xl border bg-white focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm text-neutral-900 placeholder:text-neutral-400 ${errors.email ? 'border-red-500 ring-4 ring-red-500/10' : 'border-neutral-200 hover:border-neutral-300'}`}
                   placeholder="exemple@email.com"
                 />
-                {errors.email && <p className="mt-1 text-xs font-semibold text-red-600 flex items-center"><span className="w-1 h-1 bg-red-600 rounded-full mr-1.5"></span>{errors.email}</p>}
+                {errors.email && <p className="mt-1.5 text-xs font-medium text-red-600 flex items-center"><span className="w-1 h-1 bg-red-600 rounded-full mr-1.5"></span>{errors.email}</p>}
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-semibold text-neutral-700">Mot de passe</label>
-                  <a href="#" className="text-xs font-bold text-orange-600 hover:text-orange-700 hover:underline">Mot de passe oublié ?</a>
+                  <label className="block text-sm font-medium text-neutral-700">Mot de passe</label>
+                  <a href="#" className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors">Mot de passe oublié ?</a>
                 </div>
                 <div className="relative">
                   <input
@@ -167,7 +170,7 @@ const Connexion: React.FC = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2 rounded-lg border bg-neutral-50 border-gray-200 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 transition-all outline-none text-sm font-medium text-neutral-900 placeholder:text-neutral-400 pr-10 ${errors.password ? 'border-red-500 bg-red-50' : 'hover:border-gray-300'}`}
+                    className={`w-full px-4 py-3 rounded-xl border bg-white focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none text-sm text-neutral-900 placeholder:text-neutral-400 pr-10 ${errors.password ? 'border-red-500 ring-4 ring-red-500/10' : 'border-neutral-200 hover:border-neutral-300'}`}
                     placeholder="••••••••"
                   />
                   <button
@@ -176,24 +179,24 @@ const Connexion: React.FC = () => {
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors p-1"
                   >
                     {showPassword ? (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                     ) : (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                     )}
                   </button>
                 </div>
-                {errors.password && <p className="mt-1 text-xs font-semibold text-red-600 flex items-center"><span className="w-1 h-1 bg-red-600 rounded-full mr-1.5"></span>{errors.password}</p>}
+                {errors.password && <p className="mt-1.5 text-xs font-medium text-red-600 flex items-center"><span className="w-1 h-1 bg-red-600 rounded-full mr-1.5"></span>{errors.password}</p>}
               </div>
             </div>
 
             <button
               type="submit"
               disabled={isLoading || authLoading}
-              className="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold text-base shadow-lg shadow-orange-500/30 hover:shadow-orange-500/40 transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full py-3.5 mt-2 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-semibold text-base transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-orange-500/20"
             >
               {isLoading || authLoading ? (
                 <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   <span>Connexion...</span>
                 </div>
               ) : (
@@ -202,25 +205,27 @@ const Connexion: React.FC = () => {
             </button>
           </form>
 
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
-            <div className="relative flex justify-center text-[10px] font-bold text-neutral-400 bg-white px-4 tracking-widest uppercase">Ou continuer avec</div>
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-neutral-200"></div></div>
+            <div className="relative flex justify-center text-xs font-medium text-neutral-500">
+              <span className="bg-white px-4">Ou continuer avec</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button type="button" className="flex items-center justify-center p-2.5 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all group">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" alt="Google" />
-              <span className="font-semibold text-neutral-600 text-xs">Google</span>
+          <div className="grid grid-cols-2 gap-4">
+            <button type="button" className="flex items-center justify-center p-3 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition-colors">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5 mr-3" alt="Google" />
+              <span className="font-medium text-neutral-700 text-sm">Google</span>
             </button>
-            <button type="button" className="flex items-center justify-center p-2.5 border border-gray-200 rounded-lg hover:bg-[#1877F2]/5 hover:border-[#1877F2]/30 transition-all group">
-              <svg className="w-4 h-4 mr-2 text-[#1877F2] group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-              <span className="font-semibold text-neutral-600 text-xs">Facebook</span>
+            <button type="button" className="flex items-center justify-center p-3 border border-neutral-200 rounded-xl hover:bg-[#1877F2]/5 hover:border-[#1877F2]/20 transition-colors">
+              <svg className="w-5 h-5 mr-3 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+              <span className="font-medium text-neutral-700 text-sm">Facebook</span>
             </button>
           </div>
 
-          <p className="text-center text-xs font-medium text-neutral-500 mt-4">
+          <p className="text-center text-sm font-medium text-neutral-500 mt-6">
             Pas encore de compte ?{' '}
-            <Link to="/inscription" className="text-orange-600 font-bold hover:text-orange-700 hover:underline">
+            <Link to="/inscription" className="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
               Créer un compte
             </Link>
           </p>

@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { useTheme } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
-import { User } from '../types';
+import { User } from '../../types';
 
 interface Notification {
     id: number;
@@ -15,13 +16,13 @@ interface Notification {
 
 const ClientHeader: React.FC = () => {
     const { user } = useAuth() as { user: User | null };
+    const { itemCount } = useCart() as { itemCount: number };
     const { theme, toggleTheme } = useTheme() as { theme: 'light' | 'dark'; toggleTheme: () => void };
     const [showNotifications, setShowNotifications] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Dummy notifications for buyer
     const notifications: Notification[] = [
-        { id: 1, title: 'Commande expédiée', desc: 'Votre commande #GM-1234 est en route', time: 'Il y a 10 min', type: 'shipping', isRead: false },
+        { id: 1, title: 'Commande expediee', desc: 'Votre commande #GM-1234 est en route', time: 'Il y a 10 min', type: 'shipping', isRead: false },
         { id: 2, title: 'Promotion exclusive', desc: 'Profitez de -20% sur les produits du terroir', time: 'Il y a 2h', type: 'promo', isRead: false },
         { id: 3, title: 'Nouvel avis', desc: 'Merci pour votre achat ! Laissez un avis.', time: 'Hier', type: 'review', isRead: true },
     ];
@@ -52,7 +53,6 @@ const ClientHeader: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
-                {/* Theme Toggle Button */}
                 <button
                     onClick={toggleTheme}
                     className="p-1.5 bg-neutral-100 dark:bg-[#1a1a1a] text-neutral-500 dark:text-neutral-400 rounded-lg hover:text-[#f27405] dark:hover:text-white transition-colors"
@@ -94,7 +94,7 @@ const ClientHeader: React.FC = () => {
                                     >
                                         <div className="flex gap-3">
                                             <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${notif.type === 'shipping' ? 'bg-orange-100 text-orange-600' : notif.type === 'promo' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-                                                {notif.type === 'shipping' ? '🚚' : notif.type === 'promo' ? '🎁' : '⭐'}
+                                                {notif.type === 'shipping' ? '??' : notif.type === 'promo' ? '??' : '?'}
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-xs font-bold text-neutral-900 dark:text-white truncate group-hover:text-primary-600 transition-colors">{notif.title}</p>
@@ -109,14 +109,27 @@ const ClientHeader: React.FC = () => {
                                 ))}
                             </div>
                             <Link
-                                to="/dashboard?tab=profile"
+                                to="/profile"
                                 className="block p-3 text-center text-[10px] font-black text-neutral-500 hover:text-primary-600 bg-neutral-50 dark:bg-[#1a1a1a]/40 dark:text-neutral-400 hover:dark:text-white transition-all uppercase tracking-widest border-t border-neutral-100 dark:border-[#1a1a1a]"
                             >
-                                Voir tous les paramètres
+                                Voir tous les parametres
                             </Link>
                         </div>
                     )}
                 </div>
+
+                <Link
+                    to="/panier"
+                    className="relative hidden sm:inline-flex items-center justify-center rounded-lg bg-neutral-100 p-2 text-neutral-500 transition hover:text-[#f27405] dark:bg-[#1a1a1a] dark:text-neutral-400 dark:hover:text-white"
+                    aria-label="Voir le panier"
+                >
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-black text-white">
+                        {itemCount}
+                    </span>
+                </Link>
 
                 <div className="h-6 w-px bg-neutral-200 dark:bg-[#1a1a1a]"></div>
 
@@ -127,7 +140,7 @@ const ClientHeader: React.FC = () => {
                     </div>
                     <div className="w-8 h-8 rounded-lg overflow-hidden border border-[#f27405]/30">
                         <img
-                            src={user?.avatar || "https://ui-avatars.com/api/?name=" + (user?.prenom || 'A') + "+" + (user?.nom || 'A') + "&background=f27405&color=fff"}
+                            src={user?.avatar || 'https://ui-avatars.com/api/?name=' + (user?.prenom || 'A') + '+' + (user?.nom || 'A') + '&background=f27405&color=fff'}
                             alt="Profile"
                             className="w-full h-full object-cover"
                         />
@@ -139,3 +152,4 @@ const ClientHeader: React.FC = () => {
 };
 
 export default ClientHeader;
+

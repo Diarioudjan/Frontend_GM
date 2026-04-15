@@ -113,38 +113,25 @@ const CategoryDetail: React.FC = () => {
     };
 
     const getCategoryProducts = (categoryId: string): Product[] => {
-        // Note: In a real app, strict typing would match Product interface.
-        // Here we adapt the dummy data to match Product interface roughly or casting it.
-        // The Product interface in types/index.ts usually has: id, name, price, description, images, category, stock, etc.
-        // The dummy data here has 'image' (singular) and 'rating', 'reviews', 'region'.
-        // We might need to extend the Product type or adapt the data.
-        // For now, I will use 'any' casting for the dummy data properties that might not exist in the shared Product type
-        // or ensure the shared Product type has them.
-        // Let's check types/index.ts content conceptually. The previous steps showed definitions.
-        // Assuming Product has basic fields. I will map 'image' to 'images[0]' if needed or just use as is if Product allows.
-        // Actually, looking at Product definition in previous turns:
-        // interface Product { id: number; name: string; price: number; description: string; images: string[]; category: string; stock: number; ... }
-        // The local dummy data uses 'image'. I will fix this to 'images'.
-
         const allProducts: any[] = [
             {
-                id: 1,
-                name: 'Riz local de qualité supérieure',
-                price: 5000,
+                id: '1',
+                nom: 'Riz local de qualité supérieure',
+                prix: 5000,
                 images: ['/images/products/riz.jpg'],
-                category: 'Céréales',
-                region: 'Conakry', // Extended property
+                categorie: 'Céréales',
+                region: 'Conakry',
                 rating: 4.5,
                 reviews: 23,
                 stock: 100,
                 description: 'Riz cultivé localement avec des méthodes traditionnelles'
             },
             {
-                id: 2,
-                name: 'Huile de palme naturelle',
-                price: 2500,
+                id: '2',
+                nom: 'Huile de palme naturelle',
+                prix: 2500,
                 images: ['/images/products/huile-palme.jpg'],
-                category: 'Huiles',
+                categorie: 'Huiles',
                 region: 'Nzérékoré',
                 rating: 4.2,
                 reviews: 18,
@@ -152,11 +139,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Huile de palme pure et naturelle'
             },
             {
-                id: 3,
-                name: 'Poulet local fermier',
-                price: 15000,
+                id: '3',
+                nom: 'Poulet local fermier',
+                prix: 15000,
                 images: ['/images/products/poulet.jpg'],
-                category: 'Viandes',
+                categorie: 'Viandes',
                 region: 'Labé',
                 rating: 4.7,
                 reviews: 31,
@@ -164,11 +151,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Poulet élevé en liberté dans les fermes locales'
             },
             {
-                id: 4,
-                name: 'Tomates fraîches',
-                price: 800,
+                id: '4',
+                nom: 'Tomates fraîches',
+                prix: 800,
                 images: ['/images/products/tomates.jpg'],
-                category: 'Légumes',
+                categorie: 'Légumes',
                 region: 'Kindia',
                 rating: 4.3,
                 reviews: 15,
@@ -176,11 +163,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Tomates fraîches du jardin'
             },
             {
-                id: 5,
-                name: 'Oignons locaux',
-                price: 600,
+                id: '5',
+                nom: 'Oignons locaux',
+                prix: 600,
                 images: ['/images/products/oignons.jpg'],
-                category: 'Légumes',
+                categorie: 'Légumes',
                 region: 'Conakry',
                 rating: 4.1,
                 reviews: 12,
@@ -188,11 +175,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Oignons cultivés localement'
             },
             {
-                id: 6,
-                name: 'Miel naturel',
-                price: 3000,
+                id: '6',
+                nom: 'Miel naturel',
+                prix: 3000,
                 images: ['/images/products/miel.jpg'],
-                category: 'Produits naturels',
+                categorie: 'Produits naturels',
                 region: 'Mamou',
                 rating: 4.8,
                 reviews: 28,
@@ -200,11 +187,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Miel pur et naturel des abeilles locales'
             },
             {
-                id: 7,
-                name: 'Maïs local',
-                price: 1200,
+                id: '7',
+                nom: 'Maïs local',
+                prix: 1200,
                 images: ['/images/products/mais.jpg'],
-                category: 'Céréales',
+                categorie: 'Céréales',
                 region: 'Kankan',
                 rating: 4.4,
                 reviews: 19,
@@ -212,11 +199,11 @@ const CategoryDetail: React.FC = () => {
                 description: 'Maïs frais et nutritif'
             },
             {
-                id: 8,
-                name: 'Huile d\'arachide',
-                price: 1800,
+                id: '8',
+                nom: 'Huile d\'arachide',
+                prix: 1800,
                 images: ['/images/products/huile-arachide.jpg'],
-                category: 'Huiles',
+                categorie: 'Huiles',
                 region: 'Boké',
                 rating: 4.6,
                 reviews: 22,
@@ -227,7 +214,7 @@ const CategoryDetail: React.FC = () => {
 
         // Filtrer les produits par catégorie
         return allProducts.filter(product =>
-            product.category.toLowerCase() === getCategoryName(categoryId).toLowerCase()
+            product.categorie.toLowerCase() === getCategoryName(categoryId).toLowerCase()
         ) as Product[];
     };
 
@@ -235,7 +222,7 @@ const CategoryDetail: React.FC = () => {
     // Or just cast to any for the filter/sort logic which relies on them.
     // Ideally we should update types/index.ts but I will use intersection type here for safe local usage.
 
-    type ComponentProduct = Product & { region: string; rating: number; reviews: number };
+    type ComponentProduct = Product & { rating: number; reviews: number };
 
     const filteredProducts = filter === 'all'
         ? products as ComponentProduct[]
@@ -244,14 +231,14 @@ const CategoryDetail: React.FC = () => {
     const sortedProducts = [...filteredProducts].sort((a, b) => {
         switch (sortBy) {
             case 'price-low':
-                return a.price - b.price;
+                return a.prix - b.prix;
             case 'price-high':
-                return b.price - a.price;
+                return b.prix - a.prix;
             case 'rating':
                 return b.rating - a.rating;
             case 'name':
             default:
-                return a.name.localeCompare(b.name);
+                return a.nom.localeCompare(b.nom);
         }
     });
 
@@ -300,7 +287,7 @@ const CategoryDetail: React.FC = () => {
                             <div className="text-sm text-gray-600">Note moyenne</div>
                         </div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-600">{category.popularRegions.length}</div>
+                            <div className="text-2xl font-bold text-orange-600">{category.popularRegions.length}</div>
                             <div className="text-sm text-gray-600">Régions populaires</div>
                         </div>
                     </div>
@@ -353,7 +340,7 @@ const CategoryDetail: React.FC = () => {
                             <div className="h-48 bg-gray-200 flex items-center justify-center">
                                 {/* Using images[0] because I changed data structure, also handle if images is undefined */}
                                 {product.images && product.images.length > 0 ? (
-                                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                                    <img src={product.images[0]} alt={product.nom} className="w-full h-full object-cover" />
                                 ) : (
                                     <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -363,7 +350,7 @@ const CategoryDetail: React.FC = () => {
 
                             <div className="p-4">
                                 <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">{product.name}</h3>
+                                    <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">{product.nom}</h3>
                                     <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">{product.region}</span>
                                 </div>
 
@@ -386,7 +373,7 @@ const CategoryDetail: React.FC = () => {
                                 </div>
 
                                 <div className="flex justify-between items-center">
-                                    <span className="text-xl font-bold text-gray-900">{formatCurrency(product.price)}</span>
+                                    <span className="text-xl font-bold text-gray-900">{formatCurrency(product.prix)}</span>
                                     <Link
                                         to={`/produit/${product.id}`}
                                         className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -414,3 +401,6 @@ const CategoryDetail: React.FC = () => {
 };
 
 export default CategoryDetail;
+
+
+

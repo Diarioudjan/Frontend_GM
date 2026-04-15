@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const BuyerHome: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 space-y-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900 pt-4 pb-8">
+      <div className="space-y-8 lg:space-y-10">
         {/* Hero */}
         <section className="relative overflow-hidden rounded-3xl h-[360px] md:h-[440px]">
           <img
@@ -26,7 +26,7 @@ const BuyerHome: React.FC = () => {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  to="/produits"
+                  to="/catalogue-client"
                   className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow"
                 >
                   Parcourir la boutique <span className="ml-2">➜</span>
@@ -68,7 +68,7 @@ const BuyerHome: React.FC = () => {
               <h2 className="text-2xl font-extrabold text-neutral-900 dark:text-white">Nos Catégories</h2>
               <p className="text-sm text-neutral-600 dark:text-neutral-300">Explorez la richesse de notre terroir</p>
             </div>
-            <Link to="/produits" className="text-sm font-semibold text-orange-600 hover:text-orange-700 inline-flex items-center gap-1">
+            <Link to="/catalogue-client" className="text-sm font-semibold text-orange-600 hover:text-orange-700 inline-flex items-center gap-1">
               Voir tout <span>›</span>
             </Link>
           </div>

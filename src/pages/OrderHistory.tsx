@@ -51,7 +51,7 @@ const OrderHistory: React.FC = () => {
                 return 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-bold';
             case 'expédiée':
             case 'shipped':
-                return 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold';
+                return 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 font-bold';
             case 'annulée':
             case 'cancelled':
                 return 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-bold';
@@ -278,3 +278,4 @@ const OrderHistory: React.FC = () => {
 };
 
 export default OrderHistory;
+

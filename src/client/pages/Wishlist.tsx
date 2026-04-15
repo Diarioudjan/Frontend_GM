@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { formatCurrency } from '../services/api';
+import { useCart } from '../../context/CartContext';
+import { formatCurrency } from '../../services/api';
 
 interface WishlistItem {
     id: number;
@@ -19,6 +20,7 @@ interface WishlistProps {
 }
 
 const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
+    const { addToCart } = useCart();
     const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,7 +31,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
             name: 'Masque traditionnel Baga',
             price: 75000,
             originalPrice: 85000,
-            image: '/api/placeholder/300/300',
+            image: 'https://images.unsplash.com/photo-1594736797933-d0601ba2fe65?auto=format&fit=crop&w=800&q=80',
             category: 'Art traditionnel',
             inStock: true,
             rating: 4.8,
@@ -41,7 +43,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
             name: 'Sculpture en bois d\'ébène',
             price: 89000,
             originalPrice: null,
-            image: '/api/placeholder/300/300',
+            image: 'https://images.unsplash.com/photo-1616627457739-6b8706f18f40?auto=format&fit=crop&w=800&q=80',
             category: 'Sculpture',
             inStock: true,
             rating: 4.9,
@@ -53,7 +55,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
             name: 'Collier en perles traditionnelles',
             price: 45000,
             originalPrice: 55000,
-            image: '/api/placeholder/300/300',
+            image: 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=800&q=80',
             category: 'Bijoux',
             inStock: false,
             rating: 4.7,
@@ -65,7 +67,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
             name: 'Tissu Kente authentique',
             price: 65000,
             originalPrice: null,
-            image: '/api/placeholder/300/300',
+            image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
             category: 'Textile',
             inStock: true,
             rating: 4.6,
@@ -86,10 +88,17 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
         setWishlistItems(prev => prev.filter(item => item.id !== itemId));
     };
 
-    const addToCart = (item: WishlistItem) => {
-        // Logique d'ajout au panier
-        console.log('Ajouté au panier:', item);
-        // Vous pouvez ajouter une notification ici
+    const handleAddToCart = async (item: WishlistItem) => {
+        await addToCart({
+            id: String(item.id),
+            nom: item.name,
+            description: item.category,
+            prix: item.price,
+            categorie: item.category,
+            region: 'Guinée',
+            stock: item.inStock ? 10 : 0,
+            images: [item.image]
+        });
     };
 
     if (loading) {
@@ -101,12 +110,12 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
     }
 
     return (
-        <div className={`${isComponent ? '' : 'min-h-screen bg-neutral-50 dark:bg-black py-8 font-inter'}`}>
-            <div className={`${isComponent ? '' : 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12'}`}>
+        <div className={`${isComponent ? '' : 'min-h-screen bg-neutral-50 dark:bg-[#050505] pt-4 pb-8 font-inter'}`}>
+            <div className={`${isComponent ? '' : 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'}`}>
                 {/* Header - only if not in dashboard */}
                 {!isComponent && (
                     <div className="mb-8">
-                        <h1 className="text-2xl font-black text-neutral-900 dark:text-white uppercase tracking-tight mb-2">
+                        <h1 className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight mb-2">
                             Ma Liste de Souhaits
                         </h1>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -131,9 +140,9 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
                     </div>
                 ) : (
                     /* Wishlist Grid */
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         {wishlistItems.map((item) => (
-                            <div key={item.id} className="bg-white dark:bg-[#0a0a0a] rounded-3xl overflow-hidden border border-neutral-200 dark:border-[#1a1a1a] group hover:border-primary-500/30 transition-all duration-500 shadow-soft hover:shadow-xl">
+                            <div key={item.id} className="bg-white dark:bg-[#0a0a0a] rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#1a1a1a] group hover:border-primary-500/30 transition-all duration-500 shadow-sm hover:shadow-lg">
                                 {/* Product Image */}
                                 <div className="relative h-48 bg-neutral-100 dark:bg-[#080808] overflow-hidden">
                                     <img
@@ -168,11 +177,11 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
                                 {/* Product Info */}
                                 <div className="p-6">
                                     <div className="mb-2">
-                                        <span className="text-[9px] font-black text-primary-500 uppercase tracking-[0.2em]">
+                                        <span className="text-[10px] font-bold text-primary-500 uppercase tracking-[0.16em]">
                                             {item.category}
                                         </span>
                                     </div>
-                                    <h3 className="text-base font-black text-neutral-900 dark:text-white mb-4 line-clamp-1 uppercase tracking-tight">
+                                    <h3 className="text-base font-black text-neutral-900 dark:text-white mb-4 line-clamp-1 tracking-tight">
                                         {item.name}
                                     </h3>
 
@@ -198,7 +207,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
                                     {/* Actions */}
                                     <div className="grid grid-cols-2 gap-4">
                                         <button
-                                            onClick={() => addToCart(item)}
+                                            onClick={() => handleAddToCart(item)}
                                             disabled={!item.inStock}
                                             className={`py-3.5 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all ${item.inStock
                                                 ? 'bg-primary-500 text-white shadow-soft-orange hover:scale-105 active:scale-95'
@@ -220,7 +229,7 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
                 {/* Recommendations */}
                 {wishlistItems.length > 0 && !isComponent && (
                     <div className="mt-16">
-                        <h2 className="text-xl font-black text-neutral-900 dark:text-white uppercase tracking-tight mb-8">
+                        <h2 className="text-xl font-black text-neutral-900 dark:text-white tracking-tight mb-8">
                             Vous pourriez aussi aimer
                         </h2>
                         <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl border border-neutral-200 dark:border-[#1a1a1a] p-6 shadow-soft">
@@ -251,3 +260,4 @@ const Wishlist: React.FC<WishlistProps> = ({ isComponent = false }) => {
 };
 
 export default Wishlist;
+

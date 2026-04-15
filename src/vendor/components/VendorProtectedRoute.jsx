@@ -21,7 +21,8 @@ const VendorProtectedRoute = ({ children }) => {
     }
 
     // Vérifier si l'utilisateur est un vendeur ou un admin (les admins peuvent tout voir)
-    if (user.role !== 'vendeur' && user.role !== 'admin') {
+    const role = (user?.role ?? '').toString().trim().toLowerCase();
+    if (role !== 'vendeur' && role !== 'admin') {
         return <Navigate to="/" replace />;
     }
 

@@ -59,7 +59,7 @@ const AdminDashboard = () => {
             'En attente': 'bg-yellow-100 text-yellow-800',
             'Confirmée': 'bg-blue-100 text-blue-800',
             'En préparation': 'bg-orange-100 text-orange-800',
-            'Expédiée': 'bg-purple-100 text-purple-800',
+            'Expédiée': 'bg-orange-100 text-orange-800',
             'Livrée': 'bg-green-100 text-green-800',
             'Annulée': 'bg-red-100 text-red-800'
         };
@@ -239,3 +239,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

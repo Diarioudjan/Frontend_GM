@@ -5,33 +5,38 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import { logErrors } from './utils/debug';
 import ErrorBoundary from './components/ErrorBoundary';
-import ProtectedRoute from './components/ProtectedRoute';
+import GuestRoute from './components/GuestRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
-import Produits from './pages/Produits';
+import ProduitsPublic from './pages/Produits_Professional';
+import ProduitsClient from './pages/Produits';
 import Connexion from './pages/Connexion';
 import Inscription from './pages/Inscription';
 import Contact from './pages/Contact';
 import FicheProduit from './pages/FicheProduit';
-import Panier from './pages/Panier';
-import Paiement from './pages/Paiement';
-import Dashboard from './pages/Dashboard';
 import Error404 from './pages/Error404';
-import Wishlist from './pages/Wishlist';
-import BuyerHome from './pages/BuyerHome';
 import RegionDetail from './pages/RegionDetail';
 import CategoryDetail from './pages/CategoryDetail';
-import OrderDetail from './pages/OrderDetail';
 import AdminApp from './admin/AdminApp';
 import VendorApp from './vendor/VendorApp';
+import ClientLayout from './client/components/ClientLayout';
+import ClientProtectedRoute from './client/components/ClientProtectedRoute';
+import Dashboard from './client/pages/Dashboard';
+import BuyerHome from './client/pages/BuyerHome';
+import Panier from './client/pages/Panier';
+import Paiement from './client/pages/Paiement';
+import OrderDetail from './client/pages/OrderDetail';
+import Wishlist from './client/pages/Wishlist';
+import OrderHistory from './pages/OrderHistory';
+import Profile from './pages/Profile';
+import Support from './pages/Support';
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
-// Layout avec Navbar et Footer
 const MainLayout: React.FC<LayoutProps> = ({ children }) => (
     <div className="flex flex-col min-h-screen">
         <Navbar />
@@ -42,17 +47,6 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => (
     </div>
 );
 
-// Layout avec Navbar uniquement (pour l'espace client)
-const ClientLayout: React.FC<LayoutProps> = ({ children }) => (
-    <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-            {children}
-        </main>
-    </div>
-);
-
-// Layout sans Navbar ni Footer (pour connexion/inscription)
 const AuthLayout: React.FC<LayoutProps> = ({ children }) => (
     <div className="min-h-screen">
         {children}
@@ -71,54 +65,35 @@ function App() {
                     <CartProvider>
                         <Router>
                             <Routes>
-                                {/* Routes d'administration */}
                                 <Route path="/admin/*" element={<AdminApp />} />
-
-                                {/* Routes vendeur */}
                                 <Route path="/vendor/*" element={<VendorApp />} />
 
-                                {/* Routes d'authentification (sans navbar/footer) */}
-                                <Route path="/connexion" element={<AuthLayout><Connexion /></AuthLayout>} />
-                                <Route path="/inscription" element={<AuthLayout><Inscription /></AuthLayout>} />
+                                <Route element={<ClientProtectedRoute><ClientLayout /></ClientProtectedRoute>}>
+                                    <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/buyer/home" element={<BuyerHome />} />
+                                    <Route path="/catalogue-client" element={<ProduitsClient />} />
+                                    <Route path="/catalogue-client/produit/:id" element={<FicheProduit />} />
+                                    <Route path="/panier" element={<Panier />} />
+                                    <Route path="/paiement" element={<Paiement />} />
+                                    <Route path="/commande/:id" element={<OrderDetail />} />
+                                    <Route path="/favoris" element={<Wishlist />} />
+                                    <Route path="/profile" element={<Profile />} />
+                                    <Route path="/commandes" element={<OrderHistory />} />
+                                    <Route path="/support" element={<Support />} />
+                                    <Route path="/support-client" element={<Support />} />
+                                </Route>
 
-                                {/* Routes principales du site (avec navbar/footer) */}
-                                <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-                                <Route path="/about" element={<MainLayout><About /></MainLayout>} />
-                                <Route path="/produits" element={<MainLayout><Produits /></MainLayout>} />
+                                <Route path="/connexion" element={<GuestRoute><AuthLayout><Connexion /></AuthLayout></GuestRoute>} />
+                                <Route path="/inscription" element={<GuestRoute><AuthLayout><Inscription /></AuthLayout></GuestRoute>} />
+
+                                <Route path="/" element={<GuestRoute><MainLayout><Home /></MainLayout></GuestRoute>} />
+                                <Route path="/about" element={<GuestRoute><MainLayout><About /></MainLayout></GuestRoute>} />
+                                <Route path="/contact" element={<GuestRoute><MainLayout><Contact /></MainLayout></GuestRoute>} />
+                                <Route path="/produits" element={<MainLayout><ProduitsPublic /></MainLayout>} />
                                 <Route path="/produit/:id" element={<MainLayout><FicheProduit /></MainLayout>} />
                                 <Route path="/region/:id" element={<MainLayout><RegionDetail /></MainLayout>} />
                                 <Route path="/categorie/:id" element={<MainLayout><CategoryDetail /></MainLayout>} />
-                                <Route path="/panier" element={<ClientLayout><Panier /></ClientLayout>} />
-                                <Route path="/paiement" element={<ClientLayout><Paiement /></ClientLayout>} />
-                                <Route path="/commande/:id" element={<ClientLayout><OrderDetail /></ClientLayout>} />
-                                <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
 
-                                {/* Compte utilisateur */}
-                                <Route path="/dashboard" element={
-                                    <ClientLayout>
-                                        <ProtectedRoute>
-                                            <Dashboard />
-                                        </ProtectedRoute>
-                                    </ClientLayout>
-                                } />
-                                <Route path="/buyer/home" element={
-                                    <MainLayout>
-                                        <ProtectedRoute>
-                                            <BuyerHome />
-                                        </ProtectedRoute>
-                                    </MainLayout>
-                                } />
-                                <Route path="/profile" element={<Navigate to="/dashboard?tab=profile" replace />} />
-                                <Route path="/commandes" element={<Navigate to="/dashboard?tab=orders" replace />} />
-                                <Route path="/favoris" element={
-                                    <ClientLayout>
-                                        <ProtectedRoute>
-                                            <Wishlist />
-                                        </ProtectedRoute>
-                                    </ClientLayout>
-                                } />
-
-                                {/* Page d'erreur */}
                                 <Route path="*" element={<MainLayout><Error404 /></MainLayout>} />
                             </Routes>
                         </Router>

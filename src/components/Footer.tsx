@@ -15,37 +15,37 @@ const Footer: React.FC = () => {
             { name: 'Mes favoris', path: '/favoris' },
         ],
         legal: [
-            { name: 'Vendre', path: '/inscription' },
+            { name: 'Vendre sur Makiti', path: '/inscription' },
         ]
     };
 
     return (
-        <footer className="bg-neutral-950 text-white font-sans overflow-hidden relative border-t border-neutral-800">
+        <footer className="bg-neutral-950 text-white font-sans overflow-hidden relative border-t border-neutral-900">
             {/* Ambient Background Decor */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-            <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary-600/5 blur-[120px] rounded-full pointer-events-none"></div>
+            <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
                 {/* Upper Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-neutral-800">
                     <div className="lg:col-span-5 flex flex-col items-start">
                         <Link to="/" className="flex items-center gap-3 group mb-6">
-                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-2 transition-transform duration-300 group-hover:scale-105">
+                            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg p-2 transition-transform duration-300 group-hover:scale-105">
                                 <img src="/assets/logo.png" alt="GuinéeMakiti Logo" className="w-full h-full object-contain" />
                             </div>
-                            <span className="text-2xl font-black tracking-tight text-white">
-                                Guinée<span className="text-orange-500">Makiti</span>
+                            <span className="text-2xl font-black tracking-tight text-white transition-colors group-hover:text-primary-500">
+                                Guinée<span className="text-primary-600">Makiti</span>
                             </span>
                         </Link>
                         <p className="text-neutral-400 text-sm leading-relaxed max-w-sm mb-8 font-medium">
-                            L'excellence du terroir guinéen à portée de clic. Nous connectons le monde à l'authenticité de nos régions à travers des produits d'exception.
+                            L'excellence guinéenne à portée de clic. Nous connectons le monde à l'authenticité de nos terroirs à travers une expérience e-commerce premium.
                         </p>
                         <div className="flex gap-3">
                             {['FB', 'IG', 'TW', 'LI'].map((social) => (
                                 <a
                                     key={social}
                                     href="#"
-                                    className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-xs font-bold text-neutral-400 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all duration-300 shadow-sm"
+                                    className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-[10px] font-black text-neutral-400 hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all duration-300 shadow-sm"
                                 >
                                     {social}
                                 </a>
@@ -54,22 +54,22 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div className="lg:col-span-7 lg:pl-10">
-                        <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-8 lg:p-10 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                        <div className="bg-neutral-950 border border-neutral-800 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:scale-125 transition-transform duration-1000"></div>
 
-                            <h3 className="text-xl md:text-2xl font-bold text-white mb-2 relative z-10">Inscrivez-vous à la gazette</h3>
-                            <p className="text-neutral-400 text-sm mb-6 relative z-10">
-                                Découvrez nos nouveaux arrivages, nos offres exclusives et les histoires fascinantes de nos producteurs locaux.
+                            <h3 className="text-xl md:text-3xl font-black text-white mb-3 relative z-10 tracking-tight">Rejoignez la Gazette</h3>
+                            <p className="text-neutral-400 text-sm mb-8 relative z-10 font-medium max-w-md">
+                                Soyez les premiers au courant des nouveaux arrivages et des offres exclusives.
                             </p>
 
-                            <form className="relative flex flex-col sm:flex-row gap-3 items-center max-w-md z-10" onSubmit={(e) => e.preventDefault()}>
+                            <form className="relative flex flex-col sm:flex-row gap-3 items-center z-10" onSubmit={(e) => e.preventDefault()}>
                                 <input
                                     type="email"
                                     placeholder="Votre adresse email"
-                                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl py-3.5 px-5 text-sm text-white outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-neutral-600 shadow-inner"
+                                    className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl py-4 px-6 text-sm text-white outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all placeholder:text-neutral-600 shadow-inner"
                                 />
-                                <button type="submit" className="w-full sm:w-auto flex-shrink-0 bg-orange-500 hover:bg-orange-400 text-white px-6 py-3.5 rounded-xl text-sm font-bold shadow-md transition-all">
-                                    S'inscrire
+                                <button type="submit" className="w-full sm:w-auto flex-shrink-0 bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-primary-600/20 active:scale-95 transition-all">
+                                    S'abonner
                                 </button>
                             </form>
                         </div>
@@ -79,12 +79,12 @@ const Footer: React.FC = () => {
                 {/* Middle Section: Links */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-16">
                     <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Exploration</h4>
-                        <ul className="space-y-3.5">
+                        <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-8 opacity-40">Exploration</h4>
+                        <ul className="space-y-4">
                             {footerLinks.navigation.map(link => (
                                 <li key={link.name}>
-                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-orange-400 transition-colors flex items-center group font-medium">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2 opacity-0 -ml-3.5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
+                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-primary-500 transition-all flex items-center group font-bold">
+                                        <span className="w-1 h-1 rounded-full bg-primary-500 mr-2 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
                                         {link.name}
                                     </Link>
                                 </li>
@@ -93,12 +93,12 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Assistance</h4>
-                        <ul className="space-y-3.5">
+                        <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-8 opacity-40">Assistance</h4>
+                        <ul className="space-y-4">
                             {footerLinks.support.map(link => (
                                 <li key={link.name}>
-                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-orange-400 transition-colors flex items-center group font-medium">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2 opacity-0 -ml-3.5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
+                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-primary-500 transition-all flex items-center group font-bold">
+                                        <span className="w-1 h-1 rounded-full bg-primary-500 mr-2 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
                                         {link.name}
                                     </Link>
                                 </li>
@@ -107,12 +107,12 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Légal</h4>
-                        <ul className="space-y-3.5">
+                        <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-8 opacity-40">Légal</h4>
+                        <ul className="space-y-4">
                             {footerLinks.legal.map(link => (
                                 <li key={link.name}>
-                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-orange-400 transition-colors flex items-center group font-medium">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2 opacity-0 -ml-3.5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
+                                    <Link to={link.path} className="text-sm text-neutral-400 hover:text-primary-500 transition-all flex items-center group font-bold">
+                                        <span className="w-1 h-1 rounded-full bg-primary-500 mr-2 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
                                         {link.name}
                                     </Link>
                                 </li>
@@ -121,27 +121,20 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Contact</h4>
-                        <ul className="space-y-5">
-                            <li className="flex items-start gap-3 text-neutral-400">
-                                <svg className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        <h4 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-8 opacity-40">Contact Rapide</h4>
+                        <ul className="space-y-6">
+                            <li className="flex items-start gap-4 text-neutral-400">
+                                <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-primary-500 shadow-sm">📍</div>
                                 <div>
-                                    <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">Siège Social</p>
-                                    <p className="text-sm font-medium">Cité de l'Air, Conakry, Guinée</p>
+                                    <p className="text-[10px] font-black text-white uppercase tracking-widest mb-1">Siège Social</p>
+                                    <p className="text-xs font-medium">Cité de l'Air, Conakry, Guinée</p>
                                 </div>
                             </li>
-                            <li className="flex items-start gap-3 text-neutral-400">
-                                <svg className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 3l-6 6m0 0V4m0 5h5M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" /></svg>
+                            <li className="flex items-start gap-4 text-neutral-400">
+                                <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-orange-500 shadow-sm">💬</div>
                                 <div>
-                                    <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">WhatsApp Business</p>
-                                    <p className="text-sm font-medium">+224 620 00 00 00</p>
-                                </div>
-                            </li>
-                            <li className="flex items-start gap-3 text-neutral-400">
-                                <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                <div>
-                                    <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">Email</p>
-                                    <p className="text-sm font-medium">contact@guineemakiti.com</p>
+                                    <p className="text-[10px] font-black text-white uppercase tracking-widest mb-1">WhatsApp Business</p>
+                                    <p className="text-xs font-medium">+224 620 00 00 00</p>
                                 </div>
                             </li>
                         </ul>
@@ -149,14 +142,13 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Lower Section: Copyright */}
-                <div className="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm font-medium text-neutral-500">
-                        &copy; {currentYear} GuinéeMakiti. Tous droits réservés.
+                <div className="pt-10 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest">
+                        &copy; {currentYear} GuinéeMakiti. Conçu avec passion 🇬🇳
                     </p>
-                    <div className="flex items-center gap-4">
-                        <span className="text-xs font-bold text-white uppercase tracking-widest px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full">
-                            Fièrement Guinéen 🇬🇳
-                        </span>
+                    <div className="flex items-center gap-6">
+                        <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest hover:text-primary-500 cursor-pointer transition-colors">Politique de Confidentialité</span>
+                        <span className="text-[10px] font-black text-neutral-400 uppercase tracking-widest hover:text-primary-500 cursor-pointer transition-colors">CGV</span>
                     </div>
                 </div>
             </div>
@@ -165,3 +157,6 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
+
+

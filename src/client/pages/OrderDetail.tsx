@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // @ts-ignore
-import { orderService, formatCurrency, formatDate } from '../services/api';
-import { Order, OrderItem } from '../types';
+import { orderService, formatCurrency, formatDate } from '../../services/api';
+import { Order, OrderItem } from '../../types';
 
 const OrderDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -48,7 +48,7 @@ const OrderDetail: React.FC = () => {
                     {error || "Nous ne parvenons pas à afficher les détails de cette commande pour le moment."}
                 </p>
                 <button
-                    onClick={() => navigate('/dashboard?tab=orders')}
+                    onClick={() => navigate('/commandes')}
                     className="bg-primary-500 text-white px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-soft-orange"
                 >
                     Retour à mes achats
@@ -72,11 +72,11 @@ const OrderDetail: React.FC = () => {
     const currentStepIndex = getStatusStep(order.status);
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20">
+        <div className="max-w-4xl mx-auto space-y-6 animate-fade-in pb-16 pt-4">
             {/* Back Button */}
-            <div className="mb-10 animate-fade-in">
+            <div className="mb-6 animate-fade-in">
                 <button
-                    onClick={() => navigate('/dashboard?tab=orders')}
+                    onClick={() => navigate('/commandes')}
                     className="group flex items-center space-x-3 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 hover:text-primary-500 transition-all"
                 >
                     <span className="h-8 w-8 rounded-full border border-neutral-200 dark:border-[#1a1a1a] flex items-center justify-center group-hover:bg-primary-500 group-hover:border-primary-500 group-hover:text-white transition-all">←</span>
@@ -264,3 +264,5 @@ const OrderDetail: React.FC = () => {
 };
 
 export default OrderDetail;
+
+

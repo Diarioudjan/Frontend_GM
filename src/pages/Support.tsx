@@ -35,7 +35,7 @@ const Support: React.FC = () => {
     };
 
     const quickHelp = [
-        { icon: '📦', title: 'Suivi de Commande', desc: 'Localisez votre colis en temps réel.', action: () => navigate('/dashboard?tab=orders') },
+        { icon: '📦', title: 'Suivi de Commande', desc: 'Localisez votre colis en temps réel.', action: () => navigate('/commandes') },
         { icon: '💳', title: 'Paiements', desc: 'Orange Money, MTN MoMo & Cartes.', action: () => { } },
         { icon: '🔄', title: 'Retours', desc: 'Conditions et procédures de retour.', action: () => { } },
         { icon: '📋', title: 'FAQ', desc: 'Réponses à vos questions fréquentes.', action: () => navigate('/faq') }
@@ -241,3 +241,4 @@ const Support: React.FC = () => {
 };
 
 export default Support;
+

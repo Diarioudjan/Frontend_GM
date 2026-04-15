@@ -70,11 +70,11 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-neutral-900 pt-24 pb-20 font-sans selection:bg-orange-500/30 overflow-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-gray-50/50 dark:bg-neutral-900 pt-24 pb-20 font-sans selection:bg-orange-500/30">
 
       {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-full h-96 bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none" />
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none" />
+      <div className="absolute -top-40 right-0 w-96 max-w-full h-96 translate-x-1/3 bg-orange-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 

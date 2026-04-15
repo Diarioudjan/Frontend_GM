@@ -38,7 +38,7 @@ const VendorOrders = () => {
             case 'Livrée': return 'border-green-500/20 text-green-500 bg-green-500/5';
             case 'En attente': return 'border-yellow-500/20 text-yellow-500 bg-yellow-500/5';
             case 'En préparation': return 'border-blue-500/20 text-blue-500 bg-blue-500/5';
-            case 'Expédiée': return 'border-purple-500/20 text-purple-500 bg-purple-500/5';
+            case 'Expédiée': return 'border-orange-500/20 text-orange-500 bg-orange-500/5';
             case 'Annulée': return 'border-red-500/20 text-red-500 bg-red-500/5';
             default: return 'border-neutral-500/20 text-neutral-500 bg-neutral-500/5';
         }
@@ -97,13 +97,13 @@ const VendorOrders = () => {
                 <div className="overflow-x-auto p-4">
                     <table className="w-full text-left border-separate border-spacing-y-4">
                         <thead>
-                            <tr className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.2em] h-12">
-                                <th className="px-6">Acheteur</th>
-                                <th className="px-6">Produit(s)</th>
-                                <th className="px-6">Montant (Vos articles)</th>
-                                <th className="px-6">Date</th>
-                                <th className="px-6">État</th>
-                                <th className="px-6 text-right">Actions</th>
+                            <tr className="text-xs font-semibold text-neutral-500 uppercase tracking-wider h-12">
+                                <th className="px-4 font-medium">Acheteur</th>
+                                <th className="px-4 font-medium">Produit(s)</th>
+                                <th className="px-4 font-medium">Montant (Vos articles)</th>
+                                <th className="px-4 font-medium">Date</th>
+                                <th className="px-4 font-medium">État</th>
+                                <th className="px-4 font-medium text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,8 +146,16 @@ const VendorOrders = () => {
                                 );
                             }) : (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-10 text-center text-neutral-500 text-sm italic">
-                                        Aucune commande trouvée
+                                    <td colSpan="6" className="px-4 py-16 text-center text-neutral-500 bg-neutral-50/50 dark:bg-[#1a1a1a]/20 rounded-xl">
+                                        <div className="flex flex-col items-center justify-center gap-2">
+                                            <svg className="w-12 h-12 text-neutral-300 dark:text-neutral-700 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                            </svg>
+                                            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Aucune commande trouvée</span>
+                                            <span className="text-xs text-neutral-400 dark:text-neutral-500 max-w-[250px] mx-auto">
+                                                Lorsqu'un client passe commande pour l'un de vos produits, elle apparaîtra ici.
+                                            </span>
+                                        </div>
                                     </td>
                                 </tr>
                             )}
@@ -160,3 +168,4 @@ const VendorOrders = () => {
 };
 
 export default VendorOrders;
+
